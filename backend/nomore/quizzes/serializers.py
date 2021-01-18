@@ -3,4 +3,8 @@ from rest_framework import serializers
 
 
 class QuizSerializer(serializers.ModelSerializer):
-    pass
+    class Meta:
+        model = Quiz
+        fields = ["id", "title", "created_at"]
+
+    # title = serializers.CharField(max_length=100)

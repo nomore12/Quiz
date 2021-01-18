@@ -3,7 +3,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django,node,react,venv,vscode
 
 .vscode
-
+.idea/
 ### Django ###
 *.log
 *.pot

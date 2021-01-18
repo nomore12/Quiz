@@ -1,9 +1,10 @@
 from django.test import TestCase
-from rest_framework.test import APIRequestFactory
+from rest_framework.test import APIRequestFactory, APIClient, APITestCase
 from django.urls import include, path, reverse
 
 from quizzes.models import Quiz
-from quizzes.views import index
+
+# from quizzes.views import QuizViewSet
 
 
 class QuizTestCase(TestCase):
@@ -18,12 +19,23 @@ class QuizTestCase(TestCase):
         self.assertEqual(second.title, "두 번째 퀴즈")
 
 
-class QuizHttpTestCase(TestCase):
-    def setUp(self):
-        self.factory = APIRequestFactory()
+# class QuizHttpTestCase(APITestCase):
+#     def test_quiz_api_get_index(self):
+#         pk = 1
+#         response = self.client.get(f"quiz/{pk}", format="json")
+#         import pprint
 
-    def test_get_quiz_index(self):
-        request = self.factory.get("/quiz")
-        response = index(request)
-        self.assertIn("hello", response.content.decode("utf-8"))
-        self.assertEqual(response.status_code, 200)
+#         pprint.pprint(dir(response))
+#         pprint.pprint(response.request)
+#         print(response.getvalue())
+#         self.assertIn("test", response.content)
+
+
+class QuizViewTestCase(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.quiz_data = {"pk": 1}
+        self.response = self.client.get(reverse("quiz"), data={"pk": quiz_data}, format="json")
+
+    def test_api_get_quiz(self):
+        self.assertEqual(self.response.status_code, 200)
